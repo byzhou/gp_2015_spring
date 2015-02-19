@@ -1,0 +1,416 @@
+% Copyright 2007 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/licenses/LICENSE for more details.
+
+
+
+\documentclass{beamer}
+
+%
+% DO NOT USE THIS FILE AS A TEMPLATE FOR YOUR OWN TALKS¡!!
+%
+% Use a file in the directory solutions instead.
+% They are much better suited.
+%
+
+
+% Setup appearance:
+
+\usetheme{Darmstadt}
+%\usetheme{CambridgeUS}
+%\usetheme{Berkeley}
+%\usetheme{Hannover}
+%\usefonttheme[onlylarge]{structurebold}
+\usefonttheme{professionalfonts}
+%\usefonttheme{default}
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercovered{transparent=30}
+\setbeamertemplate{footline}{
+    
+    \leavevmode%
+    \hbox{%
+    \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{author in head/foot}\insertshortauthor
+    \end{beamercolorbox}%
+
+    \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshorttitle\hspace*{3em}
+        \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+    \end{beamercolorbox}}%
+    \vskip0pt% 
+    
+    
+}
+
+% Standard packages
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{libertine}
+\usepackage{graphicx}
+%\usepackage{natbib}
+\usepackage{enumerate}
+\usepackage{biblatex}
+
+
+\usepackage{epstopdf}
+\usepackage{tabularx}
+
+
+
+% Setup TikZ
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+\addbibresource{updates.bib}
+\let\oldfootnotesize\footnotesize
+\renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+%change the font here
+\sc
+
+% Author, Title, etc.
+
+\title[ 2015 fall updates ] 
+{%
+    Hardware Security Project
+  %
+}
+
+\author[Boyou Zhou]
+{
+  \textit{Boyou Zhou\inst{*}}
+}
+
+\institute[Boston University, MA]
+{
+  \inst{*}
+  Boston Univeristy, MA
+}
+
+\date[fall 2014]
+{Created on Feb 8 2014, Modified on \today}
+
+% The main document
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\AtBeginSubsection{
+    \frame<beamer>{ 
+    \frametitle{Outline}   
+    \tableofcontents[currentsection,currentsubsection]
+    }
+}
+
+\section{Plans for the ICCAD}
+\begin{frame}{Basic Thoughts}
+    \begin{itemize}
+\pause
+        \item [*] We can have the simulation including all the metal layers,
+                material inside of standard cells, like poly-silicon.
+\pause
+        \item [*] Design a metal structure inside of metal layer, in
+                \textit{Metal1} or other metal layers in order to improve the
+                ability to detect Hardware Trojans.
+    \end{itemize}
+\end{frame}
+
+\subsection{More Detailed Simulation}
+\begin{frame}{Two possible methods to simulate the entire chip}
+    \begin{itemize}
+\pause
+        \item [opt 1] First, we use the rectlinear decomposition to divide all the
+            parts inside standard cells into rectangles. And then use the def
+            file to locate all the cells positions. At last, we combine all
+            these informations with metal connections to one file. The problem
+            is that lef only contains {\color{red}\textbf{signal pins, power and
+            ground pins, vias, and power and ground stripes}}.
+\pause
+        \item [opt 2] Use python to read the gds file and then use rectlinear
+            decomposition to all the parts inside the chip.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Simple Idea on Rectlinear Decomposition}
+\pause
+    The basic algorithm has been applied to the \textit{Metal1} and it seems to
+    be working. The next step is to ensure the accurate of the algorithm. The
+    first order of testing the algorithm is to use the area to verify the
+    program.
+\end{frame}
+
+\subsection{Metal Pattern}
+\begin{frame}
+\pause
+    I need to look into the document to look for the specification of filler
+    cell positions.
+\end{frame}
+
+\section{Reviews from DAC}
+\begin{frame}
+    Feb 17th, 2015
+\end{frame}
+
+\begin{frame}{The first reviewer, 2}
+    \begin{itemize}
+    \item 16 did such imaging for temperature measurements and Trojan
+    detection. The drawback here and in 16 is that the imaging must be
+    performed on unpackaged die. In BISA technique (HOST 13 and TCAD 14), they
+    do not need unpacked ICs. 
+\pause
+    \item 
+    If Trojans insertion is performed by replacing standard cells in the design
+    with smaller custom cells, this will not impact the filler cells or
+    watermark so such Trojans are undetectable.
+\pause
+    \item 
+    Another limitation is the speed of the technique. ?The authors claim a few
+    hours would be required to test an IC and they think this is an advantage.
+\pause
+    \item 
+    The authors use FDTD simulation for most experiments, but do not describe
+    the software or its limitations.
+\pause
+    \item
+    Detection rates vs. SNR are given to show the accuracy of the approach, but
+    the authors never mention what an expected SNR might be so the results are
+    not as easy to interpret.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The second reviewer, 4}
+    \begin{itemize}
+        \item It would be better if there are details regarding design overhead
+            and evaluation results using fabricated chips.
+\pause
+        \item How to engineer and where to insert the fill cells?
+\pause
+        \item Any rules to choose the location and number of embedded cells?
+\pause
+        \item Adding maximal metal into the cell which doesn't violate the design
+            rules doesn't necessarily lead to no violations for the entire circuit.
+\pause
+        \item Inserting fill cells into blank area is easy, but should be careful
+            if among certain functional cells, because it may interrupt the metal
+            connections among functional cells. 
+\pause
+        \item Too many fill cells with high metal density in a certain area may
+            cause polishing problem during fabrication, not high enough metal
+            density may not create significant reflectance compare to its adjacent
+            area in real chip.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The third reviewer, 4}
+    \begin{itemize}
+        \item The big issue is that the work appears to be theoretical with no
+        real experimental data to validate these claims. The image quality and
+        the speed may change when applied to real designs. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The fourth reviewer, 2}
+    \begin{itemize}
+        \item Whether there is any process variation to this approach and
+        how much. Second, a design to be checked for Trojan must be compared
+        with a golden design for the pattern (watermark). How to obtain this
+        golden design? 
+\pause
+        \item The 2$\%$ leakage overhead seems to be small, but the 0.1$\%$
+        of the total area is still large for some Trojan. (for a chip with 2
+        million gates, this 0.1$\%$ means 2000 gates!) It will be interesting and
+        might be challenging to reduce this 0.1$\%$ to a much smaller number, maybe
+        $10^{-6}$ or smaller. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The fifth reviewer, 4}
+    \begin{itemize}
+        \item The limitations and/or comparison to existing like techniques are
+        not exactly described. For example, I am not sure how much better
+        detection this paper achieves compared to the imaging references below.
+
+        while the paper cites a number of marginally related work, e.g.,
+        $[2][13][15]$, the authors miss the important related work on using
+        the optical and thermal imaging to detect hardware Trojans, in
+        particular:
+\pause
+        \begin{itemize}
+            \item {\color{red}P. Song et al., "MARVEL - Malicious Alteration Recognition and
+            Verification by Emission of Light" HOST 2011}
+\pause
+            \item F. Stellari et al., "Functional block extraction for hardware security
+            detection using time-integrated and time-resolved emission
+            measurements," VTS 2014?
+\pause
+            \item Nowroz et al, "Novel Techniques for High-Sensitivity Hardware Trojan
+            Detection Using Thermal and Power Maps", TCAD 2014
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The sixth reviewer, 3}
+    \begin{itemize}
+        \item By analyzing multiple optical responses of Trojan free chips, can
+        the attacker identify the location of the fill cells? 
+\pause
+        \item I can?t see how the author can differentiate between figure 
+        2.b and 3.b by looking at their images only as he/she claims.
+\pause
+        \item questionable claim of capability to deal with process variations
+\pause
+        \item need comparison against TJ Watson's PICO technique
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The seventh reviewer, 5}
+    \begin{itemize}
+        \item Will modifying the fill cells affect the analog characteristics of
+         the chip?
+\pause
+        \item For Replacement\_Type1 and Replacement\_Type2 tests, how many
+         gates/cells were changed? What is the lower limit on the number of fill
+         cells/gates that can be modified and still be detected?
+\pause
+        \item For Figure 4, how are these detection error rates calculated? Is
+         this empirical or can you guarantee no false positives/negatives at a
+         threshold of 0.65?
+    \end{itemize}
+\end{frame}
+
+\section{python imported files}
+\subsection{scripts problems}
+\begin{frame}{info in gds}
+    \begin{itemize}
+        \item [*] gds file does not contain info of metal structures inside a
+            standard cell. It contains the positions of the cells, types of the
+            cells, and all the vias.
+        \item [*] The info inside gds file is listed below.
+        \\
+        {\small
+        \begin{itemize}
+            \item [ ] CellReference("XNOR2\_X1", (26.98, 23.1), 0.0, None, True),
+            \item [ ] CellReference("XNOR2\_X1", (22.8, 20.3), 180.0, None, False),
+            \item [ ] CellReference("XNOR2\_X1", (20.33, 17.5), 180.0, None, True),
+            \item [ ] CellReference("XNOR2\_X1", (22.42, 25.9), 0.0, None, True),
+            \item [ ] CellReference("XNOR2\_X1", (21.47, 25.9), 180.0, None, True),
+            \item [ ] CellReference("XNOR2\_X1", (21.47, 17.5), 0.0, None, False),
+            \item [ ] CellReference("XNOR2\_X1", (28.31, 20.3), 0.0, None, False),
+            \item [ ] CellReference("top\_VIA2", (11.385, 16.1), None, None, False),
+            \item [ ] CellReference("top\_VIA8", (11.385, 16.1), None, None, False),
+            \item [ ] CellReference("top\_VIA9", (11.385, 16.1), None, None, False),
+        \end{itemize}
+        }
+    \end{itemize}
+\end{frame}
+
+\subsection{Standard cells in layout}
+\begin{frame}{info from encounter}
+    \begin{figure}[p]
+        \includegraphics[width=2in]{../img/metal1stdcells.PNG}
+        \caption{AES from DAC paper}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{info from encounter}
+    \begin{figure}[p]
+        \includegraphics[width=2in]{../img/simpleexample.PNG}~
+        \includegraphics[width=2in]{../img/simpleexample2.PNG}~
+        \caption{A much simpler example \footfullcite{wei2012hardware}}
+    \end{figure}
+\end{frame}
+
+\section{Prep for ICCAD}
+\subsection{Previous work}
+\begin{frame}{IC counterfeiting defs}
+    \begin{itemize}
+        \item IC counterfeiting category \footfullcite{guin2014counterfeit}
+        \begin{itemize}
+            \item {\color{red}unauthorized copy}
+            \item not conform to original design, model and/or performance
+            standards
+            \item off specs, defective or used design sold as new
+            \item incorrect or false markings and/or documents
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{FPGA IP protection}
+    Main methods for FPGA IP protection.\footfullcite{zhang2013fpga}
+    \begin{itemize}
+        \item {\color{red}encryption} Commercially available encryption-based
+        techniques are limited to single large FPGA configuration.
+        \footfullcite{altera2009}
+        \item {\color{red}encryption-based} licensing Requires
+        TTY\footfullcite{maes2012pay}
+        \item {\color{red}HW-IP binding methods} use mechanisms in scured ROM or
+        flash memory. They are vulnerable to side-channel
+        attacks.\footfullcite{alkabani2007remote}
+        \item PUF\footfullcite{zhang2013fpga}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{PUF with FSM}
+    \begin{figure}[p]
+        \includegraphics[width=4in]{../img/PUFFSM.PNG}
+        \caption{PUF with FSM lock\footfullcite{zhang2013fpga}}
+        \label{PUFinFSM}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{ASIC IP protection}
+    Main methods for FPGA IP protection.\footfullcite{maes2012pay}
+    \begin{itemize}
+        \item TTY, encryption related
+            \footfullcite{alkabani2007remote}
+            \footfullcite{roy2008epic}
+            \footfullcite{roy2008protecting}
+            \footfullcite{maes2009analysis}
+        \item PUF
+    \end{itemize}
+\end{frame}
+
+\subsection{Optical PUF}
+\begin{frame}{optical PUF against illegal copy of IP}
+    \begin{figure}[p]
+        \includegraphics[width=2in]{../img/metastability.PNG}~
+        \includegraphics[width=2in]{../img/laserstimulation.PNG}
+        \caption{metastability\footfullcite{wieczorek2014dual} and laser
+        stimulation \footfullcite{nedospasov2013invasive}}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{optical PUF}
+    This method requires IP core provide layouts.
+    \begin{itemize}
+\pause
+        \item Design LFSR and seed generator inside IP core. 
+\pause
+        \item With the scan with laser, metastability will not be maintained.
+        Therefore, the seeds will be generated. And so does the key. 
+\pause
+        \item For different users, LFSR generates different keys.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Thank you}
+    Thank you
+\end{frame}
+
+\end{document}
