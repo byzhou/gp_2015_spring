@@ -1,5 +1,5 @@
-flags 	 = -shell-escape
-build	 = .
+build	 = build
+src		 = src
 compiler = latexmk \
 	-pdf \
 	-latexoption="--shell-escape -halt-on-error -file-line-error" \
@@ -8,11 +8,12 @@ compiler = latexmk \
 	-outdir=$(build)
 
 default : all
-all : 
-	$(compiler) updates.tex
-
+all :  
+	$(compiler) $(src)/target.tex
+init:
+	mkdir build img src
 evince :
-	evince updates.pdf & 
+	evince $(build)/target.pdf & 
 push :
 	./autocommit
 clean :
