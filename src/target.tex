@@ -166,18 +166,22 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 \begin{frame}{Related Work}
     Electrical Methods and Side Channel Detections are the basic methods for
     anti-trojan techniques.
+\pause
     \begin{itemize}
         \item \textit{Electrical Methods}
         Delay-based Analysis, 
+\pause
         \footfullcite{li2008speed}
         \footfullcite{jin2008hardware}
         Power Analysis.
+\pause
         %\footfullcite{rad2008power}
         %\footfullcite{alkabani2009consistency}
         %\footfullcite{potkonjak2009hardware}
         \footfullcite{wei2012scalable}
         \item \textit{SCD Methods}
         Thermal Analysis, 
+\pause
         \footfullcite{forte2013temperature}
         Sound Analysis,
         Electromagnetic Analysis.
@@ -189,13 +193,16 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
     \begin{frame}{PUF}
         One of the most popular techniques in hardware security is Physically
         Unclonable Functions. Listed below is how PUFS are built.
+\pause
         \begin{itemize}
             \item [*] Engineer two identical electrical paths. They can be logic
             units, memory units or clock trees.
+\pause
             \item [*] With the information of the manufacture, design CRPs
             (challenge and response pairs). The challenges are the logic inputs
             and responses are the delay differences between two paths.  inputs
             that will have unique delay responses.
+\pause
             \item [*] Chips with correct response can be considered to be not
             tampered.
             \footfullcite{suh2007physical}
@@ -207,6 +214,7 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
             \item Engineered the layout of the fill cells in a standard
             cell library. Any replacement, modification or rearrangement of these
             fill cells to add HTs can be easily detected by backside imaging.
+\pause
             \item Designed hardware blocks using standard Cadence toolflows in
             45 nm technology, proved with backside imaging, and compared it with
             power analysis.
