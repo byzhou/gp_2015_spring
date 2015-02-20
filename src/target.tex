@@ -63,6 +63,7 @@
 
 \usepackage{epstopdf}
 \usepackage{tabularx}
+\usepackage{subfigure}
 
 
 
@@ -71,17 +72,18 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
-\addbibresource{updates.bib}
+\addbibresource{target.bib}
 \let\oldfootnotesize\footnotesize
 \renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+\graphicspath{{../img/svg/}}
 %change the font here
 \sc
 
 % Author, Title, etc.
 
-\title[ 2015 fall updates ] 
+\title[ 2015 Group Meeting Presentation ] 
 {%
-    Hardware Security Project
+Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
   %
 }
 
@@ -96,8 +98,8 @@
   Boston Univeristy, MA
 }
 
-\date[fall 2014]
-{Created on Feb 8 2014, Modified on \today}
+\date[Spring 2015]
+{Created on Feb 17 2015, Modified on \today}
 
 % The main document
 
@@ -118,299 +120,271 @@
     }
 }
 
-\section{Plans for the ICCAD}
-\begin{frame}{Basic Thoughts}
+\section{Introduction}
+\subsection{Hardware Security}
+\begin{frame}{Hardware Security}
     \begin{itemize}
+    \item [*] A generic IC chip development cycle includes specification, design,
+    fabrication, testing and packaging phases. 
 \pause
-        \item [*] We can have the simulation including all the metal layers,
-                material inside of standard cells, like poly-silicon.
-\pause
-        \item [*] Design a metal structure inside of metal layer, in
-                \textit{Metal1} or other metal layers in order to improve the
-                ability to detect Hardware Trojans.
+    \item [*] During these various phases, the IC chips face threats from
+    hardware Trojans, IP privacy and IC overbuilding, reverse engineering,
+    side-channel analysis and IC counterfeiting.\footfullcite{rostami2014primer}
     \end{itemize}
 \end{frame}
 
-\subsection{More Detailed Simulation}
-\begin{frame}{Two possible methods to simulate the entire chip}
+\begin{frame}{cost for hardware security}
     \begin{itemize}
+    \item [*] Not only hardware security problems may affect everyday consumer
+    electronics, but also in critical defense and core support
+    systems.
 \pause
-        \item [opt 1] First, we use the rectlinear decomposition to divide all the
-            parts inside standard cells into rectangles. And then use the def
-            file to locate all the cells positions. At last, we combine all
-            these informations with metal connections to one file. The problem
-            is that lef only contains {\color{red}\textbf{signal pins, power and
-            ground pins, vias, and power and ground stripes}}.
-\pause
-        \item [opt 2] Use python to read the gds file and then use rectlinear
-            decomposition to all the parts inside the chip.
+    \item [*] It was estimated that the cost of hardware security for G20 nations
+    was \$450 to \$650 billion in 2008 and will grow to \$1.2 to 1.7 trillion in
+    2015.\footfullcite{guin2013counterfeit}
+    \footfullcite{economics2011estimating}
+    \footfullcite{tehranipoortrusthub}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Simple Idea on Rectlinear Decomposition}
-\pause
-    The basic algorithm has been applied to the \textit{Metal1} and it seems to
-    be working. The next step is to ensure the accurate of the algorithm. The
-    first order of testing the algorithm is to use the area to verify the
-    program.
-\end{frame}
-
-\subsection{Metal Pattern}
-\begin{frame}
-\pause
-    I need to look into the document to look for the specification of filler
-    cell positions.
-\end{frame}
-
-\section{Reviews from DAC}
-\begin{frame}
-    Feb 17th, 2015
-\end{frame}
-
-\begin{frame}{The first reviewer, 2}
+\subsection{Hardware Trojans}
+\begin{frame}{Hardware Trojans}
     \begin{itemize}
-    \item 16 did such imaging for temperature measurements and Trojan
-    detection. The drawback here and in 16 is that the imaging must be
-    performed on unpackaged die. In BISA technique (HOST 13 and TCAD 14), they
-    do not need unpacked ICs. 
+    \item Hardware Trojans are modifications to original circuitry inserted by
+    adversaries, in order to exploit hardware to gain access to data or
+    software running on the chips.
+    \footfullcite{tehranipoor2010survey}
 \pause
-    \item 
-    If Trojans insertion is performed by replacing standard cells in the design
-    with smaller custom cells, this will not impact the filler cells or
-    watermark so such Trojans are undetectable.
-\pause
-    \item 
-    Another limitation is the speed of the technique. ?The authors claim a few
-    hours would be required to test an IC and they think this is an advantage.
-\pause
-    \item 
-    The authors use FDTD simulation for most experiments, but do not describe
-    the software or its limitations.
-\pause
-    \item
-    Detection rates vs. SNR are given to show the accuracy of the approach, but
-    the authors never mention what an expected SNR might be so the results are
-    not as easy to interpret.
+    \item Wang, Tehranipoor, and Plusquellic developed the first detailed for
+    hardware Trojans in 2008.
+    \footfullcite{wang2008detecting}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{The second reviewer, 4}
+\section{Related Work}
+\subsection{Anti-Trojan Techniques}
+\begin{frame}{Related Work}
+    Electrical Methods and Side Channel Detections are the basic methods for
+    anti-trojan techniques.
     \begin{itemize}
-        \item It would be better if there are details regarding design overhead
-            and evaluation results using fabricated chips.
-\pause
-        \item How to engineer and where to insert the fill cells?
-\pause
-        \item Any rules to choose the location and number of embedded cells?
-\pause
-        \item Adding maximal metal into the cell which doesn't violate the design
-            rules doesn't necessarily lead to no violations for the entire circuit.
-\pause
-        \item Inserting fill cells into blank area is easy, but should be careful
-            if among certain functional cells, because it may interrupt the metal
-            connections among functional cells. 
-\pause
-        \item Too many fill cells with high metal density in a certain area may
-            cause polishing problem during fabrication, not high enough metal
-            density may not create significant reflectance compare to its adjacent
-            area in real chip.
+        \item \textit{Electrical Methods}
+        Delay-based Analysis, 
+        \footfullcite{li2008speed}
+        \footfullcite{jin2008hardware}
+        Power Analysis.
+        %\footfullcite{rad2008power}
+        %\footfullcite{alkabani2009consistency}
+        %\footfullcite{potkonjak2009hardware}
+        \footfullcite{wei2012scalable}
+        \item \textit{SCD Methods}
+        Thermal Analysis, 
+        \footfullcite{forte2013temperature}
+        Sound Analysis,
+        Electromagnetic Analysis.
+        \footfullcite{hu2013high}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{The third reviewer, 4}
-    \begin{itemize}
-        \item The big issue is that the work appears to be theoretical with no
-        real experimental data to validate these claims. The image quality and
-        the speed may change when applied to real designs. 
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{The fourth reviewer, 2}
-    \begin{itemize}
-        \item Whether there is any process variation to this approach and
-        how much. Second, a design to be checked for Trojan must be compared
-        with a golden design for the pattern (watermark). How to obtain this
-        golden design? 
-\pause
-        \item The 2$\%$ leakage overhead seems to be small, but the 0.1$\%$
-        of the total area is still large for some Trojan. (for a chip with 2
-        million gates, this 0.1$\%$ means 2000 gates!) It will be interesting and
-        might be challenging to reduce this 0.1$\%$ to a much smaller number, maybe
-        $10^{-6}$ or smaller. 
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{The fifth reviewer, 4}
-    \begin{itemize}
-        \item The limitations and/or comparison to existing like techniques are
-        not exactly described. For example, I am not sure how much better
-        detection this paper achieves compared to the imaging references below.
-
-        while the paper cites a number of marginally related work, e.g.,
-        $[2][13][15]$, the authors miss the important related work on using
-        the optical and thermal imaging to detect hardware Trojans, in
-        particular:
-\pause
+\subsection{Post Silicon Trojan Detections}
+    \begin{frame}{PUF}
+        One of the most popular techniques in hardware security is Physically
+        Unclonable Functions. Listed below is how PUFS are built.
         \begin{itemize}
-            \item {\color{red}P. Song et al., "MARVEL - Malicious Alteration Recognition and
-            Verification by Emission of Light" HOST 2011}
-\pause
-            \item F. Stellari et al., "Functional block extraction for hardware security
-            detection using time-integrated and time-resolved emission
-            measurements," VTS 2014?
-\pause
-            \item Nowroz et al, "Novel Techniques for High-Sensitivity Hardware Trojan
-            Detection Using Thermal and Power Maps", TCAD 2014
+            \item [*] Engineer two identical electrical paths. They can be logic
+            units, memory units or clock trees.
+            \item [*] With the information of the manufacture, design CRPs
+            (challenge and response pairs). The challenges are the logic inputs
+            and responses are the delay differences between two paths.  inputs
+            that will have unique delay responses.
+            \item [*] Chips with correct response can be considered to be not
+            tampered.
+            \footfullcite{suh2007physical}
         \end{itemize}
-    \end{itemize}
-\end{frame}
+    \end{frame}
 
-\begin{frame}{The sixth reviewer, 3}
-    \begin{itemize}
-        \item By analyzing multiple optical responses of Trojan free chips, can
-        the attacker identify the location of the fill cells? 
-\pause
-        \item I can?t see how the author can differentiate between figure 
-        2.b and 3.b by looking at their images only as he/she claims.
-\pause
-        \item questionable claim of capability to deal with process variations
-\pause
-        \item need comparison against TJ Watson's PICO technique
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{The seventh reviewer, 5}
-    \begin{itemize}
-        \item Will modifying the fill cells affect the analog characteristics of
-         the chip?
-\pause
-        \item For Replacement\_Type1 and Replacement\_Type2 tests, how many
-         gates/cells were changed? What is the lower limit on the number of fill
-         cells/gates that can be modified and still be detected?
-\pause
-        \item For Figure 4, how are these detection error rates calculated? Is
-         this empirical or can you guarantee no false positives/negatives at a
-         threshold of 0.65?
-    \end{itemize}
-\end{frame}
-
-\section{python imported files}
-\subsection{scripts problems}
-\begin{frame}{info in gds}
-    \begin{itemize}
-        \item [*] gds file does not contain info of metal structures inside a
-            standard cell. It contains the positions of the cells, types of the
-            cells, and all the vias.
-        \item [*] The info inside gds file is listed below.
-        \\
-        {\small
+    \begin{frame}{Our Technique}
         \begin{itemize}
-            \item [ ] CellReference("XNOR2\_X1", (26.98, 23.1), 0.0, None, True),
-            \item [ ] CellReference("XNOR2\_X1", (22.8, 20.3), 180.0, None, False),
-            \item [ ] CellReference("XNOR2\_X1", (20.33, 17.5), 180.0, None, True),
-            \item [ ] CellReference("XNOR2\_X1", (22.42, 25.9), 0.0, None, True),
-            \item [ ] CellReference("XNOR2\_X1", (21.47, 25.9), 180.0, None, True),
-            \item [ ] CellReference("XNOR2\_X1", (21.47, 17.5), 0.0, None, False),
-            \item [ ] CellReference("XNOR2\_X1", (28.31, 20.3), 0.0, None, False),
-            \item [ ] CellReference("top\_VIA2", (11.385, 16.1), None, None, False),
-            \item [ ] CellReference("top\_VIA8", (11.385, 16.1), None, None, False),
-            \item [ ] CellReference("top\_VIA9", (11.385, 16.1), None, None, False),
+            \item Engineered the layout of the fill cells in a standard
+            cell library. Any replacement, modification or rearrangement of these
+            fill cells to add HTs can be easily detected by backside imaging.
+            \item Designed hardware blocks using standard Cadence toolflows in
+            45 nm technology, proved with backside imaging, and compared it with
+            power analysis.
         \end{itemize}
-        }
-    \end{itemize}
-\end{frame}
+    \end{frame}
 
-\subsection{Standard cells in layout}
-\begin{frame}{info from encounter}
-    \begin{figure}[p]
-        %\includegraphics[width=2in]{../img/metal1stdcells.PNG}
-        \caption{AES from DAC paper}
+\section{Optical Watermarks}
+\subsection{Filler Cell Design}
+\begin{frame}{Optical Response}
+    \begin{figure}
+    \includegraphics[width=0.5\columnwidth]{uni_response.pdf}
+        \caption{\small{ The reflectance spectrum of functional gates and
+        fill cells, computed via FDTD simulations. The response is computed for
+        both X and Y polarizations of the illuminating field (solid and dashed
+        lines, respectively). }}
+    \label{fig:single_cell_response}
     \end{figure}
 \end{frame}
 
-\begin{frame}{info from encounter}
-    \begin{figure}[p]
-        %\includegraphics[width=2in]{../img/simpleexample.PNG}~
-        %\includegraphics[width=2in]{../img/simpleexample2.PNG}~
-        \caption{A much simpler example \footfullcite{wei2012hardware}}
+\section{Hardware Trojan Detection}
+\begin{frame}{Backside Imaging}
+    \begin{figure}[t]
+        \subfigure[]{
+            \includegraphics[trim=0mm 0mm 0mm 0mm,clip,width=0.5in]{layout.png}
+            \label{layout}
+        }~
+        \subfigure[]{
+            \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.65in]{mod/Free.pdf}
+            \label{multiple_gates_without_Trojans}
+        }~
+        \caption{\small{
+            (a) Physical layout of a $10\mu m \times 10\mu m$ region of the AEST100
+            hardware block. (b) Backside image (reflectance value) of the $10\mu m
+            \times 10\mu m$ region. The fill cells have the highest reflectance. 
+        }}
+        \label{fig:backside-img1}
     \end{figure}
 \end{frame}
 
-\section{Prep for ICCAD}
-\subsection{Previous work}
-\begin{frame}{IC counterfeiting defs}
-    \begin{itemize}
-        \item IC counterfeiting category \footfullcite{guin2014counterfeit}
-        \begin{itemize}
-            \item {\color{red}unauthorized copy}
-            \item not conform to original design, model and/or performance
-            standards
-            \item off specs, defective or used design sold as new
-            \item incorrect or false markings and/or documents
-        \end{itemize}
-    \end{itemize}
+\begin{frame}{Trojan Tampering}
+\begin{figure}[t]
+    \centering
+    \subfigure[]{
+        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.5in]{mod/In.pdf}
+        \label{multiple_gates_with_changes_to_filler_cells}
+    }~
+    \subfigure[]{
+        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.5in]{shi/In.pdf}
+        \label{multiple_gates_with_shifts_to_filler_cells}
+    }~
+    \subfigure[]{
+        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.5in]{rep/In.pdf}
+        \label{multiple_gates_with_changes_to_none_filler_cells}
+    }~
+    \vspace{-0.2in}
+    \caption{\small{
+        (a) Backside image (reflectance value) of the $10\mu m \times 10\mu m$
+        region when the fill cells are replaced with functional gates that
+        constitute the Hardware Trojans. 
+        (b) Backside image (reflectance value) of the $10\mu m \times 10\mu m$
+        region when the bottom 3 rows are shifted by 5 $\mu$m to the left make room for
+        cells that constitute the HT. 
+        (c) Backside image (reflectance value) of the $10\mu m \times 10\mu m$
+        region when the functional cells are replaced different set of
+        functional cells that constitute the HT.}}
+    \label{fig:backside-img2}
+\end{figure} 
 \end{frame}
 
-\begin{frame}{FPGA IP protection}
-    Main methods for FPGA IP protection.\footfullcite{zhang2013fpga}
-    \begin{itemize}
-        \item {\color{red}encryption} Commercially available encryption-based
-        techniques are limited to single large FPGA configuration.
-        \footfullcite{altera2009}
-        \item {\color{red}encryption-based} licensing Requires
-        TTY\footfullcite{maes2012pay}
-        \item {\color{red}HW-IP binding methods} use mechanisms in scured ROM or
-        flash memory. They are vulnerable to side-channel
-        attacks.\footfullcite{alkabani2007remote}
-        \item PUF\footfullcite{zhang2013fpga}
-    \end{itemize}
+\begin{frame}{Threshold Change}
+\begin{figure}
+    \includegraphics[width=0.8\columnwidth]{thresholdDecision.pdf}
+    \label{threshold_decision}
+    \caption{Detection error rate versus Threshold values for a fixed SNR of $10$.}
+\end{figure}
 \end{frame}
 
-\begin{frame}{PUF with FSM}
-    \begin{figure}[p]
-        %\includegraphics[width=4in]{../img/PUFFSM.PNG}
-        \caption{PUF with FSM lock\footfullcite{zhang2013fpga}}
-        \label{PUFinFSM}
-    \end{figure}
+
+\begin{frame}{AEST100 Simulation Test}
+\begin{figure}[t]
+    \centering
+    \subfigure[]{
+        \includegraphics[width=1.5in]{real/Free.PNG}
+        %\includegraphics[width=\columnwidth]{real/Free.pdf}
+        \label{50by50_without_trojans}
+    }
+    \subfigure[]{
+        \includegraphics[width=1.5in]{real/In.PNG}
+        \label{50by50_with_trojans}
+    }
+   \vspace{-0.2in}
+    \caption{
+        (a) Backside image (reflectance values) of a Trojan-free $50\mu m \times 50\mu
+        m$ region of the AEST100 hardware block.
+        (b) Backside image (reflectance values) of the same $50\mu m \times 50\mu
+        m$ region of the AEST100 hardware block with {\color{red}CDMA private
+        key disclosure} type of HT inserted in it.}
+    \label{imaging_result}
+\end{figure}
 \end{frame}
 
-\begin{frame}{ASIC IP protection}
-    Main methods for FPGA IP protection.\footfullcite{maes2012pay}
-    \begin{itemize}
-        \item TTY, encryption related
-            \footfullcite{alkabani2007remote}
-            \footfullcite{roy2008epic}
-            \footfullcite{roy2008protecting}
-            \footfullcite{maes2009analysis}
-        \item PUF
-    \end{itemize}
+\begin{frame}{Signal to Noise Ratio}
+\begin{figure}
+	\centering
+    \includegraphics[width=0.75\textwidth]{snr.pdf}
+    \label{fig:snr}
+    \caption{
+        {\color{red}Testbench AES and PIC Trojan Detection Rate under different
+    Signal-to-Noise Ratio
+    (a) is AEST100
+    (b) is AEST200
+    (c) is AEST1000
+    (d) is PICT100
+    (e) is PICT200
+    (f) is PICT300}
+    }
+\end{figure}
 \end{frame}
 
-\subsection{Optical PUF}
-\begin{frame}{optical PUF against illegal copy of IP}
-    \begin{figure}[p]
-        %\includegraphics[width=2in]{../img/metastability.PNG}~
-        %\includegraphics[width=2in]{../img/laserstimulation.PNG}
-        \caption{metastability\footfullcite{wieczorek2014dual} and laser
-        stimulation \footfullcite{nedospasov2013invasive}}
-    \end{figure}
+\section{Evaluation}
+\begin{frame}{Process Variation Impacts}
+\begin{figure}[!t]
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{fillercells.pdf}
+        \vspace{-0.2in}
+        \caption{Impact of process variations on the reflectance signal for various wavelengths.}
+        \label{fig:PV}
+    \end{center}
+\end{figure}
 \end{frame}
 
-\begin{frame}{optical PUF}
-    This method requires IP core provide layouts.
-    \begin{itemize}
-\pause
-        \item Design LFSR and seed generator inside IP core. 
-\pause
-        \item With the scan with laser, metastability will not be maintained.
-        Therefore, the seeds will be generated. And so does the key. 
-\pause
-        \item For different users, LFSR generates different keys.
-    \end{itemize}
+\begin{frame}{Power Comparison}
+\begin{table}
+    %\vspace{-3in}
+    %\resizebox{\textwidth}{!}{%
+    \begin{center}
+    \begin{tabular*}{2\columnwidth}{c c c c c c c}
+        Testbench & Leakage Power & Total Power & Leakage Power  & Total Power  & Leakage        & Total  \\
+                  &               &             &(with Trojan)   & (with Trojan)& Percentage (\%)& Percentage (\%) \\
+	\hline
+        AES100    &   2.813       & 172.2       & 2.859          & 174          & 1.64           & 1.05 \\
+        AES200    &   2.862       & 167.8       & 2.885          & 169.5        & 0.8            & 1.0 \\
+        AES1000   &   2.813       & 172.2       & 2.859          & 174          & 1.64           & 1.05 \\
+PIC100 & 0.03811 & 0.5248 & 0.04196 & 0.6803 & 1.0 & 29 \\
+PIC200 & 0.03811 & 0.5248 & 0.03857 & 0.704 & 1.21 & 34\\
+PIC300 & 0.03617 & 0.2759 & 0.04196 & 0.4416 & 16 & 60 \\
+    \end{tabular*}
+    \caption{Power consumption (in $mW$) in various hardware blocks. The baseline designs of AES100, AES200 and AES1000 is the same, the inserted HTs are different. Similarly, the baseline design of PIC100, PIC200 and PIC300 are the same but the inserted HTs are different.}
+    \vspace{-0.25in}
+    \label{tab:power}
+    %}
+    \end{center}
+\end{table}
 \end{frame}
 
-\begin{frame}{Thank you}
-    Thank you
+\begin{frame}{Area Comparison}
+\begin{table}[t]
+    %\vspace{-3in}
+    %\resizebox{\textwidth}{!}{%
+    \begin{center}
+    \begin{tabular}{c c c c}
+        Testbench & Area without & Trojan     & Trojan Area      \\
+                  & Trojans      & Area       & Percentage (\%)  \\
+	\hline
+        AES100    & 274177.6     & 253.2      & 0.0923 \\
+        AES200    & 274177.6     & 169.5      & 0.0618 \\
+        AES1000   & 274177.6     & 251.1      & 0.0915 \\
+		PIC100 	  & 4215.0 & 351 & 8.33 \\
+		PIC200    & 4215.0 & 89.6 & 2.13 \\
+		PIC300    & 4215.0 & 253.2 & 6.01 \\
+    \end{tabular}
+    \caption{Area (in $\mu m^2$) occupied by various hardware blocks.}
+    \label{tab:area}
+    %}
+    \end{center}
+\end{table}
 \end{frame}
+
+
 
 \end{document}

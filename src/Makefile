@@ -17,4 +17,6 @@ evince :
 push :
 	./autocommit
 clean :
+	cd $(build)
 	rm -rf *.aux *.log *.nav *.snm *.toc *.out *.blg *.bbl *.bcf *.dvi *.dvi *.pdf *.xml *.fdb_latexmk *.fls
+	cd -
