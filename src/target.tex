@@ -215,6 +215,12 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 
 \section{Optical Watermarks}
 \subsection{Filler Cell Design}
+\begin{frame}{Design of Filler Cell}
+    The new filler cell is filled with metal without connecting to the top and
+    bottom power rail.
+\end{frame}
+
+\subsection{Customed Filler Cell Comparison}
 \begin{frame}{Optical Response}
     \begin{figure}
     \includegraphics[width=0.5\columnwidth]{uni_response.pdf}
@@ -227,14 +233,15 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 \end{frame}
 
 \section{Hardware Trojan Detection}
+\subsection{Backside Imaging}
 \begin{frame}{Backside Imaging}
     \begin{figure}[t]
         \subfigure[]{
-            \includegraphics[trim=0mm 0mm 0mm 0mm,clip,width=0.5in]{layout.png}
+            \includegraphics[trim=0mm 0mm 0mm 0mm,clip,width=1.3in]{layout.png}
             \label{layout}
         }~
         \subfigure[]{
-            \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.65in]{mod/Free.pdf}
+            \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=1.8in]{mod/Free.pdf}
             \label{multiple_gates_without_Trojans}
         }~
         \caption{\small{
@@ -250,40 +257,49 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 \begin{figure}[t]
     \centering
     \subfigure[]{
-        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.5in]{mod/In.pdf}
+        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=1.4in]{mod/In.pdf}
         \label{multiple_gates_with_changes_to_filler_cells}
     }~
     \subfigure[]{
-        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.5in]{shi/In.pdf}
+        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=1.4in]{shi/In.pdf}
         \label{multiple_gates_with_shifts_to_filler_cells}
     }~
     \subfigure[]{
-        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=0.5in]{rep/In.pdf}
+        \includegraphics[trim=8mm 8mm 8mm 8mm,clip,width=1.4in]{rep/In.pdf}
         \label{multiple_gates_with_changes_to_none_filler_cells}
     }~
-    \vspace{-0.2in}
     \caption{\small{
-        (a) Backside image (reflectance value) of the $10\mu m \times 10\mu m$
-        region when the fill cells are replaced with functional gates that
-        constitute the Hardware Trojans. 
-        (b) Backside image (reflectance value) of the $10\mu m \times 10\mu m$
+        (a) Backside image of the $10\mu m \times 10\mu m$
+        region when the fill cells are replaced with functional gates
+        (b) Backside image of the $10\mu m \times 10\mu m$
         region when the bottom 3 rows are shifted by 5 $\mu$m to the left make room for
-        cells that constitute the HT. 
-        (c) Backside image (reflectance value) of the $10\mu m \times 10\mu m$
+        cells. 
+        (c) Backside image of the $10\mu m \times 10\mu m$
         region when the functional cells are replaced different set of
-        functional cells that constitute the HT.}}
+        functional cells.}}
     \label{fig:backside-img2}
 \end{figure} 
 \end{frame}
 
+\subsection{Improving Dectection Rate}
+\begin{frame}{Image Correlation}
+    Pixel by pixel correlation formula is listed below.
+    \begin{equation}
+    %C(k,l) = \sum\limits_{i=0}^{q-1}{\sum\limits_{j=0}^{r-1}{M(i,j)N(i-k,j-l)}}
+    r = \frac{\sum\limits_{i}\sum\limits_{j}(M_{ij}-\bar{M})(N_{ij}-\bar{N})}
+        {\sqrt{(\sum\limits_{i}\sum\limits_{j}(M_{ij}-\bar{M})^2)
+        (\sum\limits_{i}\sum\limits_{j}(N_{ij}-\bar{N})^2)}}
+    \label{eq:Defination}
+    \end{equation}
+\end{frame}
+
 \begin{frame}{Threshold Change}
 \begin{figure}
-    \includegraphics[width=0.8\columnwidth]{thresholdDecision.pdf}
+    \includegraphics[width=0.5\columnwidth]{thresholdDecision.pdf}
     \label{threshold_decision}
     \caption{Detection error rate versus Threshold values for a fixed SNR of $10$.}
 \end{figure}
 \end{frame}
-
 
 \begin{frame}{AEST100 Simulation Test}
 \begin{figure}[t]
@@ -297,12 +313,11 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
         \includegraphics[width=1.5in]{real/In.PNG}
         \label{50by50_with_trojans}
     }
-   \vspace{-0.2in}
     \caption{
         (a) Backside image (reflectance values) of a Trojan-free $50\mu m \times 50\mu
         m$ region of the AEST100 hardware block.
         (b) Backside image (reflectance values) of the same $50\mu m \times 50\mu
-        m$ region of the AEST100 hardware block with {\color{red}CDMA private
+        m$ region of the AEST100 hardware block with {\color{black}CDMA private
         key disclosure} type of HT inserted in it.}
     \label{imaging_result}
 \end{figure}
@@ -311,10 +326,10 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 \begin{frame}{Signal to Noise Ratio}
 \begin{figure}
 	\centering
-    \includegraphics[width=0.75\textwidth]{snr.pdf}
+    \includegraphics[width=1.0\textwidth]{snr.pdf}
     \label{fig:snr}
     \caption{
-        {\color{red}Testbench AES and PIC Trojan Detection Rate under different
+        {\color{black}Testbench AES and PIC Trojan Detection Rate under different
     Signal-to-Noise Ratio
     (a) is AEST100
     (b) is AEST200
@@ -327,44 +342,43 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 \end{frame}
 
 \section{Evaluation}
+\subsection{Process Variation}
 \begin{frame}{Process Variation Impacts}
 \begin{figure}[!t]
     \begin{center}
-        \includegraphics[width=0.75\textwidth]{fillercells.pdf}
-        \vspace{-0.2in}
+        \includegraphics[width=1\textwidth]{fillercells.pdf}
         \caption{Impact of process variations on the reflectance signal for various wavelengths.}
         \label{fig:PV}
     \end{center}
 \end{figure}
 \end{frame}
 
+\subsection{Power and Area Analysis}
 \begin{frame}{Power Comparison}
-\begin{table}
-    %\vspace{-3in}
-    %\resizebox{\textwidth}{!}{%
-    \begin{center}
-    \begin{tabular*}{2\columnwidth}{c c c c c c c}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{c c c c c c c}
         Testbench & Leakage Power & Total Power & Leakage Power  & Total Power  & Leakage        & Total  \\
                   &               &             &(with Trojan)   & (with Trojan)& Percentage (\%)& Percentage (\%) \\
 	\hline
         AES100    &   2.813       & 172.2       & 2.859          & 174          & 1.64           & 1.05 \\
         AES200    &   2.862       & 167.8       & 2.885          & 169.5        & 0.8            & 1.0 \\
         AES1000   &   2.813       & 172.2       & 2.859          & 174          & 1.64           & 1.05 \\
-PIC100 & 0.03811 & 0.5248 & 0.04196 & 0.6803 & 1.0 & 29 \\
-PIC200 & 0.03811 & 0.5248 & 0.03857 & 0.704 & 1.21 & 34\\
-PIC300 & 0.03617 & 0.2759 & 0.04196 & 0.4416 & 16 & 60 \\
-    \end{tabular*}
-    \caption{Power consumption (in $mW$) in various hardware blocks. The baseline designs of AES100, AES200 and AES1000 is the same, the inserted HTs are different. Similarly, the baseline design of PIC100, PIC200 and PIC300 are the same but the inserted HTs are different.}
-    \vspace{-0.25in}
+        PIC100    & 0.03811       & 0.5248      & 0.04196 & 0.6803 & 1.0 & 29 \\
+        PIC200    & 0.03811       & 0.5248 & 0.03857 & 0.704 & 1.21 & 34\\
+        PIC300    & 0.03617       & 0.2759 & 0.04196 & 0.4416 & 16 & 60 \\
+    \end{tabular}
     \label{tab:power}
-    %}
-    \end{center}
-\end{table}
+    }
+    \begin{table}
+    \caption{Power consumption (in $mW$) in various hardware blocks. The baseline designs
+    of AES100, AES200 and AES1000 is the same, the inserted HTs are different.
+    Similarly, the baseline design of PIC100, PIC200 and PIC300 are the same but
+    the inserted HTs are different.}
+    \end{table}
 \end{frame}
 
 \begin{frame}{Area Comparison}
 \begin{table}[t]
-    %\vspace{-3in}
     %\resizebox{\textwidth}{!}{%
     \begin{center}
     \begin{tabular}{c c c c}
@@ -384,7 +398,5 @@ PIC300 & 0.03617 & 0.2759 & 0.04196 & 0.4416 & 16 & 60 \\
     \end{center}
 \end{table}
 \end{frame}
-
-
 
 \end{document}
