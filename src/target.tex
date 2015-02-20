@@ -89,7 +89,14 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 
 \author[Boyou Zhou]
 {
-  \textit{Boyou Zhou\inst{*}}
+  \textit{Boyou Zhou\inst{*},}
+  Ronen Adato\inst{*},
+  Mahmoud Zangeneh\inst{*},\\
+  Tianyu Yang\inst{*}, 
+  Aydan Uyar\inst{*},
+  Bennett Goldberg\inst{*},
+  Selim Unlu\inst{*},\\
+  Ajay Joshi\inst{*}
 }
 
 \institute[Boston University, MA]
@@ -222,16 +229,13 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
     \end{frame}
 
 \section{Optical Watermarks}
-\subsection{Filler Cell Design}
-\begin{frame}{Design of Filler Cell}
+\begin{frame}{Optical Response}
     The new filler cell is filled with metal without connecting to the top and
     bottom power rail.
-\end{frame}
-
-\subsection{Customed Filler Cell Comparison}
-\begin{frame}{Optical Response}
+    \vspace{-0.1in}
     \begin{figure}
     \includegraphics[width=0.5\columnwidth]{uni_response.pdf}
+    \vspace{-0.1in}
         \caption{\small{ The reflectance spectrum of functional gates and
         fill cells, computed via FDTD simulations. The response is computed for
         both X and Y polarizations of the illuminating field (solid and dashed
@@ -243,6 +247,7 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
 \section{Hardware Trojan Detection}
 \subsection{Backside Imaging}
 \begin{frame}{Backside Imaging}
+    \hspace{-1in}
     \begin{figure}[t]
         \subfigure[]{
             \includegraphics[trim=0mm 0mm 0mm 0mm,clip,width=1.3in]{layout.png}
@@ -405,6 +410,33 @@ Detecting Hardware Trojans Using Backside Optical Imaging of Embedded Watermarks
     %}
     \end{center}
 \end{table}
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}
+    Hardware Trojans are hard to be detected if the HT is added during the
+    fabrication phase. Most of the electrical techniques are not effective because
+    the sizes of HTs are even smaller than impacts from process variations.
+    State of art side channel detections are limited by low resolution
+    responses. 
+\pause
+    We propose the idea of photonic side channel detection, which use
+    near-IR as a tool for HT detection. With near-IR high resolution imaging, we
+    can differentiate single gate. We also show the robostness with nosie and
+    $\pm10\%$ process variations.
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item [*] We continue to explore the single gate metal structure in
+        order to detect single gate functional gate replacement HTs.
+\pause
+        \item [*] We design higher level metal structure to make the detection
+        faster.
+\pause
+        \item [*] We are going to measure the real chip to get information from
+        real experiment instead of simulation.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
